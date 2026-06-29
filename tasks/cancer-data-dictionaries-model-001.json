@@ -1,0 +1,35 @@
+{
+  "id": "cancer-data-dictionaries-model-001",
+  "title": "Dictionary template + canonical dictionary model",
+  "project": "cancer-data-dictionaries",
+  "type": "writing",
+  "lane": "donated",
+  "priority": "high",
+  "domain": ["cancer-research", "open-data", "bioinformatics", "open-science"],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Public cancer datasets (e.g. GDC/TCGA open tier, GEO, SEER aggregate) are widely reused but poorly documented: cryptic field names, coded values whose meanings live in separate manuals, implied units, and silent 'not reported' sentinels. Before documenting any specific dataset, the project needs one reusable template and a canonical dictionary model that every output (Markdown, JSON, Frictionless Table Schema, Croissant) is a projection of. The deliverable is documentation about the data, never the data itself; only open-access/aggregate/de-identified datasets are ever in scope, and every assertion must cite an authoritative source.",
+  "objective": "Create the reusable dictionary template and the canonical dictionary model that every per-dataset task will use, with provenance and sentinel handling as first-class, mandatory attributes.",
+  "acceptanceCriteria": [
+    "Canonical model documents all fields: datasetId, title, publisher, accessTier (open|controlled|mixed; only open proceeds), sourceUrls, license {id, url, permitsDerivatives, snapshotRef}, provenance {retrievedAt, version, updateCadence, attribution, docSources[]}, pii {present, deidentified, basis, notes}, tables[].fields[] {name, label, dataType, units, codeSystem, allowedValues[]{code, meaning, sourceRef}, nullable, sentinels[], description, caveats, provenance{sourceRef}}, crosswalks[], qualityScore {before, after}, specVersions.",
+    "Every field-level assertion (definition, coded-value meaning, unit) requires a provenance.sourceRef; the model treats unsourced assertions as invalid.",
+    "Sentinel / 'not reported' conventions are a first-class field attribute (sentinels[]).",
+    "Markdown template covers the field dictionary, coded-value tables, provenance record, license record, and known caveats; explicitly states the deliverable is documentation, not data, and that documentation output is licensed CC-BY-4.0.",
+    "At least one filled-in worked-example skeleton is included to guide contributors.",
+    "pnpm build && pnpm test && pnpm lint pass for any committed tooling; commit is DCO signed-off."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "C:\\code\\elyos\\planning\\ROADMAP.md",
+    "NCI Genomic Data Commons (GDC) Data Dictionary",
+    "Frictionless Table Schema specification",
+    "Croissant ML metadata specification (MLCommons)"
+  ],
+  "output": "A dictionary template plus a canonical dictionary model definition, committed to the project repo and ready for reuse by per-dataset dictionary tasks.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}
