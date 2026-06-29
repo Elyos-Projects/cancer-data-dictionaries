@@ -1,0 +1,36 @@
+{
+  "id": "cancer-data-dictionaries-triage-011",
+  "title": "Triage >= 3 candidate datasets through the gate",
+  "project": "cancer-data-dictionaries",
+  "type": "research",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "data-governance"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "Before scaling dictionaries, at least three candidate datasets must be run through gate-002 with committed artifacts. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. Each PASS must cite license evidence and confirm no identifiable data.",
+  "objective": "Run at least three candidate datasets through gate-002 and ontology/NC policy, producing a committed gate artifact for each.",
+  "acceptanceCriteria": [
+    "Each dataset gets a committed gate artifact (access-tier + PASS/FLAG/EXCLUDE + rationale), applying the ontology/NC policy.",
+    "Each PASS records accessTier: open, license id/URL/snapshot, permitsDerivatives:true with cited evidence.",
+    "PII methodology applied; any identifiable/controlled/unclear-license dataset is EXCLUDED/FLAGGED with the concern surfaced."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/triage-011/ committed gate artifacts for >= 3 candidate datasets.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

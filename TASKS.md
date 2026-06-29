@@ -276,6 +276,86 @@ FLAG = NC/custom (policy review); EXCLUDE = controlled/identifiable (no task).
 | cancer-data-dictionaries-dash-025 | Outcome dashboard (adoptions + reuse events) | code | medium | low | pr | Reads the outcome ledger; supports success metrics |
 | cancer-data-dictionaries-lookup-026 | Static dictionary-lookup site/API over delivered dictionaries | code | medium | low | pr | Read-only over CC-BY dictionaries; no data hosting |
 
+> Note: `i18n-024` is authored as an Elyos task with `type: writing` + `deliverable: translation`
+> (`translation` is a deliverable, not a `type`).
+
+---
+
+## Acceptance criteria — generated rows (previously without explicit bullets)
+
+These mirror the committed `tasks/<id>.json` so every table row has checkable criteria.
+
+- **ontology-policy-003 (ontology/NC-source policy)**
+  - [ ] Names the accepted ontologies/codelists and pinned-version policy (ICD-O-3, NCIt, HGVS,
+        MONDO) and the restricted-vocabulary rule (e.g. SNOMED CT: link-out by code only, never
+        republish licensed term text).
+  - [ ] Decides COSMIC/OncoKB/GENIE/IARC per the NC/custom rule, consistent with gate-002
+        (no default-allow; missing/unparseable license = FLAG/EXCLUDE).
+  - [ ] Every coded-value meaning carries a `provenance.sourceRef`; referenced by gate-002 and crosswalk.
+
+- **reviewer-004 (Access+License+PII reviewer)**
+  - [ ] A named individual/role recorded as reviewer, secured before the pilot-008 review.
+  - [ ] Review scope documented (confirms accessTier, license `permitsDerivatives` with evidence, PII).
+  - [ ] Escalation/refusal path: controlled/identifiable/unclear-license datasets EXCLUDED/FLAGGED.
+
+- **outreach-007 (partner outreach + shortlist)**
+  - [ ] ≥ 1 partner-outreach thread opened (contact + ask recorded).
+  - [ ] Shortlist limited to open-access/aggregate sources, each with a realistic adoption path.
+  - [ ] `verifiedNeed` stays `false` until a partner confirms; no dataset approved without its gate artifact.
+
+- **dict-012 / dict-013 (open datasets #2 / #3)** — per-dataset template (one task per dataset)
+  - [ ] Dataset PASSed gate-002 (`accessTier: open`, permits derivatives, no identifiable data), artifact committed.
+  - [ ] 100% provenance; field coverage ≥ 95% (gaps listed); quality score recorded (after ≥ 90/100).
+  - [ ] Valid JSON + Frictionless + Croissant; validator clean; crosswalks where licensing permits.
+  - [ ] License snapshot (committed copy + SHA-256 + Wayback); adopted upstream or submitted with blocker.
+
+- **dict-022 (open datasets #6–#8)** — same per-dataset template applied to each of the three datasets.
+
+- **linkml-023 (LinkML / CDISC export)**
+  - [ ] Exports the canonical model to valid LinkML + CDISC artifacts, versions pinned in `specVersions`.
+  - [ ] Golden fixtures diffed in CI; code MIT; `pnpm build && pnpm test && pnpm lint` green; DCO signed-off.
+
+- **i18n-024 (translate a delivered glossary)**
+  - [ ] Researcher glossary (only; patient glossary excluded — that would be `high`) translated into a named language.
+  - [ ] Domain/advocate reviewer fluent in the target language; meaning + provenance preserved.
+  - [ ] Source-compatible license (CC-BY-4.0); no third-party copyrighted source text relicensed.
+
+- **dash-025 (outcome dashboard)**
+  - [ ] Reads the outcome ledger (adoptions + verified reuse events); read-only; hosts no dataset content; code MIT; CI green.
+
+- **lookup-026 (static dictionary-lookup site/API)**
+  - [ ] Read-only over delivered CC-BY dictionaries (no data hosting); attribution preserved; static build; code MIT; CI green.
+
+---
+
+## Fan-out note
+
+Per-dataset dictionary tasks (`dict-012`, `dict-013`, `dict-018`, `dict-022`) are **representative**:
+the concrete datasets are not enumerated here. The candidate catalog above is triage-signal only and
+**no entry becomes a task until it PASSes `gate-002`** with its own committed artifact, so per-dataset
+tasks are deliberately **not fanned out** into per-catalog-entry JSONs (that would pre-approve
+datasets the gate has not cleared). They expand into concrete per-dataset tasks once `triage-011` /
+`catalog-017` produce an approved shortlist and a partner is confirmed.
+
+---
+
+## Generated task index
+
+All milestone/backlog rows now have a committed, schema-valid `tasks/<id>.json` (validated against
+`packages/schema` taskSchema; filenames match ids; no duplicates). Index:
+
+- M0: `cancer-data-dictionaries-model-001` (seed), `-gate-002`, `-ontology-policy-003`, `-reviewer-004`,
+  `-emit-005`, `-validator-006`, `-outreach-007`, `-pilot-008`
+- M1: `-snapshot-009`, `-crosswalk-010`, `-triage-011`, `-dict-012`, `-dict-013`, `-partner-014`
+- M2: `-score-015`, `-glossary-016`, `-catalog-017`, `-dict-018`
+- M3: `-patient-glossary-019`, `-reuse-020`, `-refresh-021`, `-dict-022`
+- Backlog: `-linkml-023`, `-i18n-024`, `-dash-025`, `-lookup-026`
+
+All tasks: `lane: donated`, `urgent: false`, `verifiedNeed: false`, `requestor: TO BE SECURED`,
+`status: open`. `outputLicense`: `MIT` for code, `CC-BY-4.0` for docs/translations.
+`patient-glossary-019` carries `riskTier: high` with the oncologist + patient-advocate hard-gate and
+"not medical advice" framing preserved.
+
 ---
 
 ## Example task JSON

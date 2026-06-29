@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-i18n-024",
+  "title": "Translate a delivered glossary (domain/advocate reviewer)",
+  "project": "cancer-data-dictionaries",
+  "type": "writing",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "i18n",
+    "documentation"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "translation",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "A delivered researcher glossary (CC-BY-4.0, our own content) is translated into a target language with a domain/advocate reviewer. A researcher-glossary translation is riskTier medium; translating the patient glossary would be high and is out of scope here. The translation is licensed source-compatibly (CC-BY-4.0) and never relicenses any third-party source text.",
+  "objective": "Translate a delivered researcher glossary into a target language with domain/advocate review, keeping provenance and a source-compatible license.",
+  "acceptanceCriteria": [
+    "A delivered researcher glossary is translated into a named target language; only the researcher glossary (medium) is in scope - patient-facing translation would be riskTier high and is excluded here.",
+    "Translation reviewed by a domain or advocate reviewer fluent in the target language; meaning and provenance preserved per entry.",
+    "Output licensed source-compatibly (CC-BY-4.0, matching the source glossary); no third-party copyrighted source text is relicensed."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/i18n-024-glossary-<lang>.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

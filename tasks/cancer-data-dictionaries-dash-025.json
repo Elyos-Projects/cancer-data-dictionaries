@@ -1,0 +1,36 @@
+{
+  "id": "cancer-data-dictionaries-dash-025",
+  "title": "Outcome dashboard (adoptions + reuse events)",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling",
+    "outcomes"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "Success metrics need visibility. This read-only dashboard reads the outcome ledger (adoptions + reuse events) and supports the project's success metrics. It hosts no dataset content.",
+  "objective": "Build a read-only outcome dashboard over the outcome ledger surfacing adoptions and verified reuse events.",
+  "acceptanceCriteria": [
+    "Reads the outcome ledger (outcomes/*.json + reuse events) and surfaces adoptions and verified reuse events supporting the success metrics.",
+    "Read-only; hosts no dataset content; code MIT; CI green."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the outcome dashboard.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

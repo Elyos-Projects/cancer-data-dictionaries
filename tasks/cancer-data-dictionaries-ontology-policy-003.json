@@ -1,0 +1,38 @@
+{
+  "id": "cancer-data-dictionaries-ontology-policy-003",
+  "title": "Ontology/codelist + NC/custom-source acceptance policy",
+  "project": "cancer-data-dictionaries",
+  "type": "design-spec",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "controlled-vocabulary",
+    "licensing"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Coded fields in cancer datasets map to controlled vocabularies (ICD-O-3, NCIt, HGVS, MONDO, SNOMED CT) and some sources carry non-commercial/custom licenses (COSMIC, OncoKB, GENIE, IARC). Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. This policy decides which ontologies and source licenses may be used and how restricted vocabularies are handled.",
+  "objective": "Define the ontology/codelist acceptance policy and the non-commercial/custom-source acceptance rules that gate and crosswalk tooling must enforce.",
+  "acceptanceCriteria": [
+    "Names the accepted ontologies/codelists and pinned-version policy (ICD-O-3, NCIt, HGVS, MONDO) and the rule for restricted vocabularies (e.g. SNOMED CT): link-out by code only, never republish licensed term text.",
+    "Defines the NC/custom-source decision for COSMIC, OncoKB, GENIE, IARC with rationale, consistent with gate-002 license rules (no default-allow; missing/unparseable license = FLAG/EXCLUDE).",
+    "States that every coded-value meaning carries a provenance.sourceRef and that unsourced or unlicensed term text is invalid.",
+    "Policy is committed as a document and is referenced by gate-002 and the crosswalk tooling as the authority for ontology/license decisions."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/ontology-policy-003-ontology-nc-source-policy.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

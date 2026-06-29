@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-linkml-023",
+  "title": "LinkML / CDISC mapping export",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling",
+    "metadata-standards"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "If structured-modeling consumers enter scope, delivered dictionaries should export to LinkML and CDISC mappings. This adds an export path from the canonical model, with versions pinned. Tooling only.",
+  "objective": "Implement an export from the canonical dictionary model to LinkML and CDISC mappings with pinned versions and fixtures.",
+  "acceptanceCriteria": [
+    "Exports the canonical model to valid LinkML and CDISC mapping artifacts, with the target spec versions pinned in specVersions.",
+    "Golden fixtures diffed in CI; outputs validated against the pinned specs.",
+    "Code MIT; pnpm build && pnpm test && pnpm lint green; DCO signed-off."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the LinkML/CDISC export plus golden fixtures.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

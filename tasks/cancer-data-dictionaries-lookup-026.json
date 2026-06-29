@@ -1,0 +1,35 @@
+{
+  "id": "cancer-data-dictionaries-lookup-026",
+  "title": "Static dictionary-lookup site/API over delivered dictionaries",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "A static, read-only lookup site/API over the delivered CC-BY dictionaries makes them easier to use. It is read-only over the CC-BY dictionaries and hosts no dataset content.",
+  "objective": "Build a static, read-only dictionary-lookup site/API over the delivered CC-BY dictionaries.",
+  "acceptanceCriteria": [
+    "Read-only lookup over delivered CC-BY dictionaries (no data hosting); attribution preserved per CC-BY.",
+    "Static build; code MIT; CI green."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the static dictionary-lookup site/API.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

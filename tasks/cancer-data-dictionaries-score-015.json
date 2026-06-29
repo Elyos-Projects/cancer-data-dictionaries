@@ -1,0 +1,36 @@
+{
+  "id": "cancer-data-dictionaries-score-015",
+  "title": "Automated dictionary-quality / coverage scoring",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling",
+    "quality"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Quality must be measurable and provenance non-negotiable. This tool computes coverage and completeness scores, requiring 100% provenance to pass, and records before/after in the artifact. Tooling only.",
+  "objective": "Implement automated dictionary-quality/coverage scoring that records before/after metrics and enforces 100% provenance to pass.",
+  "acceptanceCriteria": [
+    "Computes field coverage, value-set coverage, provenance completeness (must be 100% to pass), unit/sentinel completeness, machine-validity; records before/after in the artifact.",
+    "Code MIT; CI green."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the quality/coverage scoring tool.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}
