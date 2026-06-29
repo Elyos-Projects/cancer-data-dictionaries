@@ -1,0 +1,44 @@
+{
+  "id": "cancer-data-dictionaries-omop-028",
+  "title": "OMOP CDM as crosswalk target: policy extension + tooling",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "controlled-vocabulary",
+    "licensing",
+    "tooling"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "PLAN.md v0.2 adds OMOP CDM (via OHDSI ATHENA) as a first-class crosswalk target — the cross-dataset harmonization anchor alongside NCIt and caDSR CDE. Neither the existing ontology-policy-003 nor crosswalk-010 covers OMOP. OMOP has unique compliance nuances: ATHENA aggregates many vocabularies including restricted ones (notably SNOMED CT), so OMOP crosswalks may only redistribute the concept_id, domain, and open concept names — never restricted term text; the same link-out rule applies to restricted terms within OMOP. Each OMOP crosswalk must pin the ATHENA vocabulary release date. The canonical model's crosswalks[] schema gains mappingOrigin (official|derived) and the OMOP vocabulary release in specVersions. M1 exit criterion (2) requires crosswalk tooling to include OMOP CDM as a target.",
+  "objective": "Extend the ontology acceptance policy (ontology-policy-003) to cover OMOP CDM / ATHENA compliance rules, then extend the crosswalk tooling (crosswalk-010) to map coded fields to OMOP concept_id with pinned ATHENA release, emitting open concept names only and enforcing the restricted-term link-out rule via a CI fixture.",
+  "acceptanceCriteria": [
+    "Ontology acceptance policy updated to explicitly cover OMOP CDM via ATHENA: redistribute concept_id + domain + open concept names; link-out (by concept_id only) for any concept whose source vocabulary is restricted (e.g. SNOMED-in-OMOP); ATHENA vocabulary release date pinned per crosswalk.",
+    "Crosswalk tooling extended to emit OMOP concept_id + domain + open name for coded fields; a CI fixture proves restricted-vocabulary term text (e.g. a SNOMED-sourced OMOP concept's preferred name) is never emitted, only the concept_id link-out.",
+    "specVersions updated to record the OMOP CDM vocabulary release (ATHENA snapshot date) alongside ICD-O-3, NCIt, and other pinned vocabulary versions.",
+    "The mappingOrigin field (official|derived) is recorded on every OMOP mapping entry in crosswalks[].",
+    "Policy document references the OMOP/ATHENA nuance and is reflected in the gate-002 and crosswalk-010 tooling as the authoritative rule.",
+    "Code MIT; pnpm build && pnpm test && pnpm lint green; DCO signed-off."
+  ],
+  "resources": [
+    "PLAN.md (v0.2) — §Goals, §Scope (crosswalks), §Solution pipeline 4, §Canonical model specVersions, §Compliance (ontology-licensing policy), §Roadmap M1 exit criterion 2, §Dependencies",
+    "OHDSI ATHENA — https://athena.ohdsi.org (vocabulary download and release notes)",
+    "OHDSI OMOP CDM vocabulary license terms (open concepts vs. restricted source-specific terms)",
+    "tasks/cancer-data-dictionaries-ontology-policy-003.json",
+    "tasks/cancer-data-dictionaries-crosswalk-010.json",
+    "tasks/cancer-data-dictionaries-model-001.json"
+  ],
+  "output": "PR to the repo containing: (1) updated ontology-policy-003 document with OMOP CDM section; (2) extended crosswalk tooling supporting OMOP concept_id mapping; (3) CI fixture proving restricted-term text exclusion from OMOP crosswalks.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

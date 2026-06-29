@@ -1,0 +1,41 @@
+{
+  "id": "cancer-data-dictionaries-verbatim-lint-030",
+  "title": "Verbatim-copy CI lint for source-documentation copyright compliance",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "compliance",
+    "tooling"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "PLAN.md v0.2 introduces a source-documentation copyright risk that is distinct from the dataset license: a dataset can be fully open while its authoritative documentation prose (WHO ICD-O-3 manual, SEER coding manuals) is copyrighted text. Verbatim lifting of that prose violates copyright independently of the dataset's open status. The v0.2 plan mandates a paraphrase-with-citation rule and a verbatim-copy lint that runs in CI, caps quoted-run length against source manuals, and requires attribution on any quoted snippet — failing the build on long unattributed runs. No existing task implements this lint (validator-006 enforces schema provenance completeness, not prose copyright). This risk is listed in the v0.2 risk table with a 'medium' probability and 'medium' consequence.",
+  "objective": "Implement a verbatim-copy CI lint that checks dictionary definition prose against a configurable threshold: flags or fails the build on runs of text above a length cap that lack an inline attribution (sourceRef), preventing inadvertent copyright infringement of WHO ICD-O-3 / SEER manual prose.",
+  "acceptanceCriteria": [
+    "Lint checks the 'description' and 'caveats' text fields in every dictionary entry against a configurable maximum run length for quoted/verbatim text without an explicit sourceRef attribution.",
+    "A run of prose that exceeds the length cap without an inline attribution citation causes the lint to fail with a human-readable message identifying the field, the offending passage, and the required action (paraphrase or add attribution).",
+    "Short attributed snippets (below the cap, or carrying an explicit sourceRef on the enclosing allowedValues or field entry) pass the lint.",
+    "The length cap and attribution-marker convention are documented in CONTRIBUTING.md or equivalent and configurable via a project-level config file.",
+    "Golden fixtures in CI demonstrate: (a) a clean dictionary passes; (b) a dictionary with a long unattributed prose run fails with the correct diagnostic.",
+    "Lint is wired into the existing CI validation pipeline so it runs alongside the validator-006 provenance check; separate from the schema/provenance checks.",
+    "Code MIT; pnpm build && pnpm test && pnpm lint green; DCO signed-off."
+  ],
+  "resources": [
+    "PLAN.md (v0.2) — §Solution pipeline 3 (paraphrase-with-citation rule), §Compliance (source-documentation copyright subsection), §Risk table (verbatim copying row)",
+    "tasks/cancer-data-dictionaries-validator-006.json (existing CI validation pipeline to integrate into)",
+    "tasks/cancer-data-dictionaries-model-001.json (canonical model field structure: description, caveats, sourceRef)"
+  ],
+  "output": "PR to the repo adding the verbatim-copy lint tool, CI wiring, configuration schema, golden fixtures, and CONTRIBUTING.md documentation of the paraphrase-with-citation rule.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

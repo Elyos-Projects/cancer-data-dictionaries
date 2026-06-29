@@ -1,0 +1,42 @@
+{
+  "id": "cancer-data-dictionaries-drift-detect-029",
+  "title": "M1 drift detection: hash/diff upstream dictionary sources against pinned versions",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "maintenance",
+    "tooling"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "PLAN.md v0.2 moves drift detection from M3 (a future process document) to M1 (a concrete code deliverable). The existing refresh-021 task covers only the human staleness/refresh process documentation at M3; it does not implement the detection mechanism. The v0.2 plan requires a concrete tool that hashes/diffs the upstream dictionary source (GDC Data Dictionary YAML via NCI-GDC/gdcdictionary, GDC API field list, SEER recode page) against the pinned source version recorded in each dictionary's specVersions, and opens a maintenance task when a change is detected. M1 exit criterion (6) gates on drift detection being live. The source dictionary version (GDC Data Dictionary version, SEER recode release) is now a first-class field in specVersions to enable this check.",
+  "objective": "Implement M1 drift detection: a tool that compares each delivered dictionary's pinned upstream source version against the current upstream (GDC YAML hash / GDC API field list / SEER recode page) and emits a structured maintenance-task stub when drift is detected, suitable for CI or manual invocation.",
+  "acceptanceCriteria": [
+    "Tool fetches the current upstream dictionary source (at minimum: GDC Data Dictionary YAML from NCI-GDC/gdcdictionary; extensible to GDC API field list, SEER recode page) and compares it against the version/hash pinned in the dictionary's specVersions.gdcDictionary (or equivalent source key).",
+    "On detected drift, tool emits a structured maintenance-task stub (JSON following the Elyos task schema, type: maintenance) identifying the changed source, the pinned version, and the detected version — ready to open as a tracked work item.",
+    "No data is fetched or committed beyond the upstream dictionary schema/metadata; the inspection access protocol is honored (tooling operates on open schema docs, not on data).",
+    "A golden fixture in CI confirms: (a) a matching pinned version produces no alert; (b) a mismatched version produces a correctly structured maintenance stub.",
+    "Tool is invocable in CI on a schedule (cron) and manually; instructions committed in CONTRIBUTING.md or equivalent.",
+    "specVersions schema updated to include gdcDictionary (and equivalent keys for other sources) per PLAN.md v0.2.",
+    "Code MIT; pnpm build && pnpm test && pnpm lint green; DCO signed-off."
+  ],
+  "resources": [
+    "PLAN.md (v0.2) — §Solution (pinned source dictionary version), §Roadmap M1 exit criterion 6, §Roadmap M3 (human refresh loop), §Risk table (source data/schema changes)",
+    "NCI-GDC/gdcdictionary GitHub repo — open YAML, tagged releases",
+    "tasks/cancer-data-dictionaries-refresh-021.json (M3 human-process companion)",
+    "tasks/cancer-data-dictionaries-model-001.json (specVersions schema)"
+  ],
+  "output": "PR to the repo adding the drift-detection tool, CI wiring (scheduled or manual), golden fixtures, and the updated specVersions schema key.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

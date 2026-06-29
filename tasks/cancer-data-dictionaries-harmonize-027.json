@@ -1,0 +1,47 @@
+{
+  "id": "cancer-data-dictionaries-harmonize-027",
+  "title": "Harmonized cross-dataset field-equivalence table (named M1 deliverable)",
+  "project": "cancer-data-dictionaries",
+  "type": "data",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "data-harmonization",
+    "controlled-vocabulary"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "dataset",
+  "tokenEstimate": "large",
+  "status": "open",
+  "context": "PLAN.md v0.2 promotes the harmonized cross-dataset field-equivalence table from a byproduct to the project's primary named deliverable. No existing task covers this artifact. The table maps the same clinical concept across GDC, cBioPortal, SEER, and GEO to shared vocabulary anchors (NCIt concept code / caDSR CDE Public ID / OMOP concept_id), with per-member provenance and caveats. M1 exit criterion (7) requires at least one concept (e.g. vital_status) harmonized across at least two sources; M2 exit criterion (5) requires expansion to at least three concepts across at least three sources with a tracked coverage metric. The canonical artifact schema is: equivalences[]{ concept, vocabularyAnchor (NCIt/CDE/OMOP), members[]{datasetId, field, sourceRef}, caveats }. No incumbents provide this; it is the direct enabler of reproducible secondary analysis across sources.",
+  "objective": "Produce the harmonized cross-dataset field-equivalence table as a canonical JSON artifact and companion Markdown, mapping shared clinical concepts across GDC, cBioPortal, SEER, and GEO to NCIt / caDSR CDE / OMOP vocabulary anchors, with full provenance on every member mapping.",
+  "acceptanceCriteria": [
+    "Canonical JSON artifact follows the equivalences[]{ concept, vocabularyAnchor, members[]{datasetId, field, sourceRef}, caveats } schema defined in PLAN.md v0.2.",
+    "At least 1 concept harmonized across at least 2 sources at M1 (e.g. vital_status: GDC vital_status vs cBioPortal OS_STATUS); at least 3 concepts across at least 3 sources at M2.",
+    "Every member mapping carries a sourceRef citing the per-dataset dictionary (referencing the per-dataset tasks) and the vocabulary anchor entry (NCIt concept code / caDSR CDE Public ID / OMOP concept_id via ATHENA); no unsourced mappings.",
+    "mappingOrigin is recorded for each member: 'official' where the per-dataset source already carries an authoritative CDE/NCIt link (e.g. GDC YAML); 'derived' for field-level semantic equivalences that are new claims requiring domain reviewer sign-off.",
+    "Caveats section flags any semantic differences between equivalent fields (e.g. different coding conventions, sentinel value differences, scope differences).",
+    "Companion Markdown table renders the equivalences in human-readable form with vocabulary anchor hyperlinks.",
+    "Artifact is published as a named, citable deliverable (committed to the repo as output/harmonize-027/field-equivalence-table.json + .md); outcomes artifact recorded.",
+    "All 'derived' mappings have passed domain (cancer-informatics) reviewer sign-off before shipping.",
+    "pnpm build && pnpm test && pnpm lint pass; DCO signed-off."
+  ],
+  "resources": [
+    "PLAN.md (v0.2) — §Executive summary, §Goals, §Scope M1 exit criterion 7, §Solution pipeline 4, §Canonical model, §Roadmap M1/M2",
+    "NCI GDC Data Dictionary repo (NCI-GDC/gdcdictionary) — open YAML with caDSR CDE Public IDs + NCIt concept codes",
+    "NCI Thesaurus (NCIt) / EVS API",
+    "OHDSI ATHENA — OMOP CDM standardized vocabularies",
+    "cBioPortal data-format docs (per-study clinical attribute definitions)",
+    "SEER coding and recode manuals",
+    "GEO series metadata headers"
+  ],
+  "output": "output/harmonize-027/field-equivalence-table.json (canonical artifact) + field-equivalence-table.md (companion Markdown) + outcomes/harmonize-027.json (steward record).",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}
