@@ -1,0 +1,39 @@
+{
+  "id": "cancer-data-dictionaries-pilot-008",
+  "title": "End-to-end dictionary for one open-access pilot dataset",
+  "project": "cancer-data-dictionaries",
+  "type": "data",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "data-dictionary"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "The pilot proves the whole pipeline end-to-end on one open-access dataset selected on a realistic adoption path. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. It must PASS gate-002 with a committed artifact and reach 100% provenance before any output ships.",
+  "objective": "Produce one complete, source-verified dictionary for an open-access pilot dataset, emitted in all formats and adopted (or submitted with the blocker surfaced).",
+  "acceptanceCriteria": [
+    "Pilot selected on a realistic adoption path first: informal channel or self-serve fallback (GitHub PR to the dataset's repo, or a Zenodo record/DOI).",
+    "Dataset PASSed gate-002 (accessTier: open, license permits derivatives, no identifiable data) with the artifact committed.",
+    "Complete field dictionary with coded-value meanings + sentinels; 100% provenance coverage; field coverage >= 95% (gaps listed); quality score recorded (after >= 90/100).",
+    "Valid JSON + Frictionless + Croissant emitted; validator clean in CI.",
+    "Provenance recorded (source URLs, publisher, version, retrieval date, attribution; license snapshot = committed copy + SHA-256 + Wayback URL).",
+    "Adopted via informal channel or self-serve fallback with the Steward's outcomes/<dataset-id>.json recorded - or submitted with the blocker surfaced."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/pilot-008/ dictionary (Markdown + JSON + Frictionless + Croissant) plus the committed gate artifact.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

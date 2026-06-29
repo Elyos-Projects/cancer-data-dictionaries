@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-crosswalk-010",
+  "title": "Controlled-vocabulary crosswalk tooling + ontology-license enforcement",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "controlled-vocabulary",
+    "tooling"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "Coded fields gain value when mapped to pinned ontologies, but restricted vocabularies (e.g. SNOMED CT) must not be republished. This tooling maps coded fields to pinned ontology versions and enforces the ontology-licensing policy (ontology-policy-003) in code, proven by a CI fixture.",
+  "objective": "Build crosswalk tooling that maps coded fields to pinned ontology versions and enforces ontology licensing in code.",
+  "acceptanceCriteria": [
+    "Maps coded fields to pinned ontology versions (ICD-O-3, NCIt, HGVS, MONDO).",
+    "Enforces the ontology-licensing policy in code: restricted vocab (e.g. SNOMED CT) emits link-out by code, never republished term text - proven by a CI fixture.",
+    "Crosswalk version pinned per mapping; code MIT; CI green."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the crosswalk tooling plus the restricted-vocabulary link-out fixture.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

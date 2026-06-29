@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-validator-006",
+  "title": "Dictionary validator (provenance-100%, code integrity) + bounded-sample check",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling",
+    "provenance"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Provenance must be 100% and controlled-tier data must never slip through. This validator enforces sourceRef coverage and code/value integrity and rejects controlled accessTier via a committed fixture. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself.",
+  "objective": "Implement the dictionary validator that enforces 100% provenance, code/value integrity, controlled-tier rejection, and an optional bounded-sample schema check.",
+  "acceptanceCriteria": [
+    "Fails the build if any assertion lacks a sourceRef (provenance = 100% enforced).",
+    "Checks code/value integrity (no orphan codes, valid enums) and rejects accessTier: controlled via a committed fixture.",
+    "Optional bounded-sample schema check honors the inspection access protocol; no real data committed. Code MIT; CI green; no credentials embedded."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the validator plus the controlled-tier-rejection and provenance fixtures.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

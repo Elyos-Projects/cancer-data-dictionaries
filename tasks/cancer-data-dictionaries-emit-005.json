@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-emit-005",
+  "title": "Emitters: JSON dictionary + Frictionless Table Schema + Croissant",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "tooling",
+    "metadata-standards"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "The canonical dictionary model (model-001) must project to interoperable outputs so delivered dictionaries are machine-usable. This task builds emitters from canonical JSON to Frictionless Table Schema and Croissant ML, with versions pinned. Tooling only; it never mirrors or hosts data.",
+  "objective": "Implement emitters that turn a canonical JSON dictionary into a valid Frictionless Table Schema and a valid Croissant ML v1.0 document, with golden fixtures.",
+  "acceptanceCriteria": [
+    "Emits canonical JSON -> valid Frictionless Table Schema + Croissant ML v1.0 (pinned in specVersions).",
+    "Golden input->output fixtures diffed in CI; outputs validated against pinned specs.",
+    "Code MIT; pnpm build && pnpm test && pnpm lint green; DCO signed-off."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding the emitters package/module plus golden fixtures and CI wiring.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

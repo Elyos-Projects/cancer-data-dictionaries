@@ -1,0 +1,38 @@
+{
+  "id": "cancer-data-dictionaries-catalog-017",
+  "title": "Triage candidate catalog -> approved shortlist",
+  "project": "cancer-data-dictionaries",
+  "type": "research",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "data-governance"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "The candidate dataset catalog lists triage signals only; no entry becomes a task until it PASSes gate-002. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. This task assigns every catalog entry a disposition with a committed gate artifact and produces an ordered approved shortlist.",
+  "objective": "Triage the full candidate catalog into dispositions with committed gate artifacts and output an ordered approved shortlist.",
+  "acceptanceCriteria": [
+    "Every entry assigned a disposition with a committed gate artifact: APPROVED (accessTier: open, permitsDerivatives:true cited, PII acceptable), VERIFY-LATER, FLAG (policy), or EXCLUDED (controlled/identifiable).",
+    "verify rows resolved with a cited license URL; unresolved rows stay VERIFY-LATER.",
+    "FLAG rows (COSMIC/OncoKB/GENIE/IARC) decided strictly per the NC/custom policy with rationale.",
+    "EXCLUDE rows (controlled/identifiable) get no dictionary task - confirmed and recorded.",
+    "Output is a committed shortlist (>= 6 APPROVED candidates) ordered by realistic adoption path."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/catalog-017-approved-shortlist.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "cancer-data-dictionaries-glossary-016",
+  "title": "Researcher plain-language glossary layer (>= 2 datasets)",
+  "project": "cancer-data-dictionaries",
+  "type": "writing",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "documentation"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "Researchers and analysts struggle with confusing field names and terms. This adds a sourced plain-language glossary layer over >= 2 delivered dictionaries, framed for researchers/analysts and explicitly NOT patient advice. Every entry is sourced.",
+  "objective": "Produce a sourced researcher-facing plain-language glossary for confusing fields/terms across at least two delivered dictionaries.",
+  "acceptanceCriteria": [
+    "Plain-language entries for confusing fields/terms in >= 2 delivered dictionaries, each sourced (provenance), framed for researchers/analysts - not patient advice.",
+    "Domain-reviewed for accuracy; CC-BY-4.0."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/glossary-016-researcher-glossary.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

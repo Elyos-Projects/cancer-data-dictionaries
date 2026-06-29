@@ -1,0 +1,34 @@
+{
+  "id": "cancer-data-dictionaries-refresh-021",
+  "title": "Staleness/refresh process + schema-drift detection",
+  "project": "cancer-data-dictionaries",
+  "type": "maintenance",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "maintenance"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Documented datasets drift from their recorded versions over time. This task documents a staleness/refresh process and how the validator flags schema drift so stale dictionaries become maintenance tasks.",
+  "objective": "Document the staleness/refresh process and schema-drift detection that turns drifted dictionaries into maintenance tasks.",
+  "acceptanceCriteria": [
+    "Documented process to detect when a documented dataset has drifted from its recorded version/release; validator flags schema drift; stale dictionaries become maintenance tasks."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/refresh-021-staleness-refresh-process.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

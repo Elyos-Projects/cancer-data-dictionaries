@@ -1,0 +1,41 @@
+{
+  "id": "cancer-data-dictionaries-gate-002",
+  "title": "Access-tier + license + PII triage gate (blocking)",
+  "project": "cancer-data-dictionaries",
+  "type": "design-spec",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "data-governance",
+    "privacy",
+    "licensing"
+  ],
+  "riskTier": "medium",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "A blocking triage gate must run before any per-dataset work in cancer-data-dictionaries: it decides whether a candidate cancer dataset may be documented at all. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. This spec defines the access-tier, license, and PII checks and the committed PASS/FLAG/EXCLUDE artifact every dataset must carry.",
+  "objective": "Specify the blocking access-tier + license + PII triage gate, including per-source defaults and the committed per-dataset gate artifact format.",
+  "acceptanceCriteria": [
+    "Access-tier check runs first and is blocking: controlled/mixed -> EXCLUDE; only open proceeds. Enumerated exclusions: dbGaP, EGA, controlled TCGA/ICGC/TARGET, individual-level biobanks, any DUA/DAC/IRB-gated source, any identifiable data.",
+    "License rule: PASS only if license.permitsDerivatives:true from a cited clause/URL; COSMIC/OncoKB/GENIE/IARC pre-flagged; missing/unparseable = FLAG/EXCLUDE (no default-allow).",
+    "Per-source defaults encoded: GDC/TCGA open tier + GEO + ClinVar + DepMap (CC BY) + EBI (Expression Atlas/PRIDE) + CPTAC open = eligible; SEER aggregate eligible, case-level SEER (DUA) EXCLUDED; TCIA per-collection verify.",
+    "PII methodology: direct-identifier scan, quasi-identifier/k<5 + small-cell flag, genomic re-identification awareness (individual-level germline = identifiable). Never de-identify ourselves.",
+    "Inspection (open data only) follows the access protocol (header/streamed, <=1,000-row cap, local-only ephemeral, no committed samples, halt on identifiability).",
+    "Produces a committed PASS/FLAG/EXCLUDE artifact per dataset recording which checks ran and what fired, plus the recorded accessTier."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/gate-002-access-license-pii-gate.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

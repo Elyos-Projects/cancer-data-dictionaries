@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-patient-glossary-019",
+  "title": "Patient-facing educational glossary (oncologist + advocate reviewed)",
+  "project": "cancer-data-dictionaries",
+  "type": "writing",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "patient-education"
+  ],
+  "riskTier": "high",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "medium",
+  "status": "open",
+  "context": "This is patient-facing educational content and is HIGH RISK. It is a hard gate: released only with BOTH oncologist AND patient-advocate sign-off; without the panel the item is deferred, not shipped. Education only - no diagnostic, prognostic, or treatment guidance, and every entry carries a prominent \"not medical advice\" notice routing readers to their care team.",
+  "objective": "Produce a patient-facing educational glossary, released only with both oncologist and patient-advocate sign-off, otherwise explicitly deferred.",
+  "acceptanceCriteria": [
+    "Hard gate: released only with both oncologist and patient-advocate sign-off; without the panel, the item is deferred, not shipped.",
+    "Every entry carries a prominent \"not medical advice\" notice and routes readers to their care team; education only - no diagnostic/prognostic/treatment guidance.",
+    "Every assertion sourced (provenance 100%); plain language verified with an advocate.",
+    "riskTier: high; CC-BY-4.0."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/patient-glossary-019-patient-glossary.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

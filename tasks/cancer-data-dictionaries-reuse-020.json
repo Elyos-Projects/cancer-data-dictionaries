@@ -1,0 +1,34 @@
+{
+  "id": "cancer-data-dictionaries-reuse-020",
+  "title": "Track and verify external reuse events",
+  "project": "cancer-data-dictionaries",
+  "type": "research",
+  "lane": "donated",
+  "priority": "low",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "outcomes"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Elyos success is outcomes delivered, so external reuse must be tracked with externally verifiable evidence - no self-reported reuse. This task records verifiable reuse events for delivered dictionaries.",
+  "objective": "Record at least three externally verifiable external reuse events for delivered dictionaries.",
+  "acceptanceCriteria": [
+    ">= 3 verifiable external reuse events recorded (citation / commons adoption / PR reference), each linking to externally verifiable evidence (no self-reported reuse)."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/reuse-020-reuse-events.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

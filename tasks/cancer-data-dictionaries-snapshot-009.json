@@ -1,0 +1,36 @@
+{
+  "id": "cancer-data-dictionaries-snapshot-009",
+  "title": "License + source-doc snapshot capture in provenance flow",
+  "project": "cancer-data-dictionaries",
+  "type": "code",
+  "lane": "donated",
+  "priority": "medium",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "provenance",
+    "tooling"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "pr",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Provenance must be durable: a bare URL is insufficient. This task implements snapshot capture so license text and authoritative source docs are committed with hashes and Wayback URLs. Tooling only; no dataset content is mirrored.",
+  "objective": "Implement license + source-doc snapshot capture feeding license.snapshotRef and provenance.docSources[].",
+  "acceptanceCriteria": [
+    "Implements the decided format: committed copy of license text/page + each authoritative source-doc reference + SHA-256 + Wayback save URL; license.snapshotRef and provenance.docSources[] record path, hash, timestamp. Bare URL alone insufficient.",
+    "Code MIT; tests + CI green; no credentials embedded."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "PR to the repo adding snapshot-capture tooling wired into the provenance flow.",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "MIT"
+}

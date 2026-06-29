@@ -1,0 +1,37 @@
+{
+  "id": "cancer-data-dictionaries-partner-014",
+  "title": "Secure first confirmed adoption partner",
+  "project": "cancer-data-dictionaries",
+  "type": "research",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "outreach",
+    "governance"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Per-task delivery need stays unproven (verifiedNeed:false) until a named commons/repo/advocacy maintainer agrees to adopt dictionaries. This task secures that first confirmed partner and documents the contribution mechanism, after which the relevant tasks flip to verifiedNeed:true.",
+  "objective": "Secure a first confirmed adoption partner and document the contribution mechanism, enabling verifiedNeed:true on that partner's tasks.",
+  "acceptanceCriteria": [
+    "A named commons/repo/advocacy maintainer confirms they will review and adopt dictionaries.",
+    "Contribution mechanism documented (PR vs. commons docs process vs. Zenodo companion).",
+    "Tasks for that partner updated to verifiedNeed:true with requestor set."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/partner-014-confirmed-partner.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "cancer-data-dictionaries-reviewer-004",
+  "title": "Name/secure the Access+License+PII reviewer (blocking role)",
+  "project": "cancer-data-dictionaries",
+  "type": "research",
+  "lane": "donated",
+  "priority": "high",
+  "domain": [
+    "cancer-research",
+    "open-data",
+    "bioinformatics",
+    "open-science",
+    "governance"
+  ],
+  "riskTier": "low",
+  "urgent": false,
+  "deliverable": "document",
+  "tokenEstimate": "small",
+  "status": "open",
+  "context": "Every per-dataset deliverable requires sign-off from a named Access+License+PII reviewer; this role is blocking and must exist before the pilot is reviewed. Binding guardrail: open-access / aggregate / de-identified data only; controlled-access and identifiable data are EXCLUDED at gate-002; provenance on every assertion; the deliverable is documentation about the data, never the data itself. This task identifies and secures that reviewer and records the review responsibilities.",
+  "objective": "Identify and secure a named Access+License+PII reviewer and document the role's scope and sign-off responsibilities.",
+  "acceptanceCriteria": [
+    "A named individual (or clearly scoped role) is recorded as the Access+License+PII reviewer, secured before the pilot (pilot-008) review.",
+    "Review scope is documented: confirms accessTier, license permitsDerivatives with cited evidence, and PII methodology applied per gate-002 before any dataset PASSes.",
+    "Escalation/refusal path documented: controlled/identifiable or unclear-license datasets are EXCLUDED/FLAGGED and never silently approved."
+  ],
+  "resources": [
+    "C:\\code\\elyos\\planning\\projects\\cancer-data-dictionaries\\PLAN.md",
+    "PLAN.md",
+    "TASKS.md"
+  ],
+  "output": "output/reviewer-004-access-license-pii-reviewer.md",
+  "requestor": "TO BE SECURED",
+  "verifiedNeed": false,
+  "outputLicense": "CC-BY-4.0"
+}
