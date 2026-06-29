@@ -1,6 +1,6 @@
 # TASKS — cancer-data-dictionaries
 
-> Status: Draft · Version: 0.1.0 · Last updated: 2026-06-28 · Owner: TBD (maintainer) · Lane: donated
+> Status: Draft · Version: 0.2.0 · Last updated: 2026-06-29 · Owner: TBD (maintainer) · Lane: donated
 
 ## How these tasks map to Elyos
 
@@ -54,9 +54,18 @@ gate artifact before work starts.
         `accessTier`, `sourceUrls`, `license{id,url,permitsDerivatives,snapshotRef}`,
         `provenance{...,docSources[]}`, `pii{...}`, `tables[].fields[]{name,label,dataType,units,
         codeSystem,allowedValues[]{code,meaning,sourceRef},nullable,sentinels[],description,caveats,
-        provenance{sourceRef}}`, `crosswalks[]`, `qualityScore{before,after}`, `specVersions`.
+        provenance{sourceRef}}`, `crosswalks[]{field,targetVocabulary,license,mappingOrigin
+        (official|derived),sourceRef,mapping[]}`, `qualityScore{before,after}`,
+        `specVersions{frictionless,croissant,ncit,icdo,omop,gdcDictionary}`.
+  - [ ] **`mappingOrigin`** (`official` = reproduced+cited, e.g. GDC caDSR-CDE/NCIt; `derived` = ours,
+        domain-reviewed) is a required crosswalk attribute; **OMOP CDM** is a supported target.
+  - [ ] A sibling **harmonized field-equivalence** artifact shape (`equivalences[]{concept,
+        vocabularyAnchor,members[]{datasetId,field,sourceRef},caveats}`) is defined as a named output.
+  - [ ] `specVersions` pins release ids (NCIt monthly e.g. 26.05d, ICD-O-3.2, OMOP/ATHENA release,
+        GDC dictionary version, SEER recode) so every mapping/dictionary is reproducible.
   - [ ] **Sentinel / "not reported" conventions** are a first-class field attribute.
-  - [ ] **Every field-level assertion requires a `provenance.sourceRef`** in the model.
+  - [ ] **Every field-level assertion requires a `provenance.sourceRef`** in the model; definition
+        prose is **paraphrased-with-citation**, not copied verbatim from source manuals.
   - [ ] Markdown template covers field dictionary, coded-value tables, provenance, license record,
         known caveats; states the deliverable is documentation, not data; output `CC-BY-4.0`.
   - [ ] One filled-in worked-example skeleton included.
@@ -80,20 +89,29 @@ gate artifact before work starts.
 
 - **emit-005 (emitters)**
   - [ ] Emits canonical JSON → valid **Frictionless Table Schema** + **Croissant ML v1.0** (pinned
-        in `specVersions`).
+        in `specVersions`); for sources with a native dictionary format (e.g. GDC YAML), also emits
+        that native form to enable upstream contribution.
   - [ ] Golden input→output fixtures diffed in CI; outputs validated against pinned specs.
+  - [ ] **Round-trip/coverage test**: asserts value-level provenance + per-coded-value meaning either
+        survive a projection or are documented as intentionally absent (projections are lossy —
+        full fidelity lives only in canonical JSON).
   - [ ] Code MIT; `pnpm build && pnpm test && pnpm lint` green; DCO signed-off.
 
 - **validator-006 (dictionary validator)**
   - [ ] **Fails the build if any assertion lacks a `sourceRef`** (provenance = 100% enforced).
   - [ ] Checks code/value integrity (no orphan codes, valid enums) and **rejects `accessTier:
         controlled`** via a committed fixture.
+  - [ ] **Verbatim-copy lint**: caps quoted-run length against source-documentation prose (WHO
+        ICD-O-3 / SEER manuals) and requires attribution; long unattributed runs fail the build
+        (source-documentation copyright is distinct from the dataset license).
   - [ ] Optional bounded-sample schema check honors the inspection access protocol; no real data
         committed. Code MIT; CI green; no credentials embedded.
 
 - **pilot-008 (pilot dataset, end-to-end)**
   - [ ] Pilot selected on a realistic adoption path first: informal channel or self-serve fallback
         (GitHub PR to the dataset's repo, or a Zenodo record/DOI).
+  - [ ] Pilot is **GDC open-tier clinical or a GEO series** (rich field/value structure); a SEER
+        aggregate table is deferred (too few columns/coded values to exercise the dictionary model).
   - [ ] Dataset PASSed `gate-002` (`accessTier: open`, license permits derivatives, no identifiable
         data) with the artifact committed.
   - [ ] Complete field dictionary with coded-value meanings + sentinels; **100% provenance
@@ -122,6 +140,8 @@ partner-outreach thread opened.
 | cancer-data-dictionaries-dict-012 | Dictionary for open dataset #2 | data | medium | medium | document | pilot-008, triage-011 | Access+License+PII, Technical, Domain |
 | cancer-data-dictionaries-dict-013 | Dictionary for open dataset #3 | data | medium | medium | document | pilot-008, triage-011 | Access+License+PII, Technical, Domain |
 | cancer-data-dictionaries-partner-014 | Secure first confirmed adoption partner | research | small | low | document | outreach-007 | Steward |
+| cancer-data-dictionaries-drift-027 | Upstream drift detection (hash/diff source dictionary) | code | small | low | pr | snapshot-009, validator-006 | Technical |
+| cancer-data-dictionaries-harmonize-028 | Cross-dataset field-equivalence table (seed) | data | medium | medium | document | crosswalk-010, dict-012, dict-013 | Domain, Technical |
 
 **Acceptance criteria — key tasks**
 
@@ -132,10 +152,15 @@ partner-outreach thread opened.
   - [ ] Code MIT; tests + CI green; no credentials embedded.
 
 - **crosswalk-010 (crosswalk tooling)**
-  - [ ] Maps coded fields to pinned ontology versions (ICD-O-3, NCIt, HGVS, MONDO).
-  - [ ] **Enforces the ontology-licensing policy in code**: restricted vocab (e.g. SNOMED CT)
-        emits link-out by code, never republished term text — proven by a CI fixture.
-  - [ ] Crosswalk version pinned per mapping; code MIT; CI green.
+  - [ ] Maps coded fields to pinned ontology versions (NCIt, caDSR CDE, **OMOP CDM** via ATHENA,
+        ICD-O-3, HGVS, MONDO).
+  - [ ] **Reproduces official mappings (harvest-and-cite) rather than re-deriving them**: for GDC,
+        ingest the existing caDSR CDE Public IDs + NCIt concept codes from the open YAML and tag them
+        `mappingOrigin: official`; only project-produced mappings are `derived` (domain-reviewed).
+  - [ ] **Enforces the ontology-licensing policy in code**: restricted vocab (e.g. SNOMED CT, incl.
+        SNOMED reached via OMOP) emits link-out by code, never republished term text — proven by a
+        CI fixture.
+  - [ ] Crosswalk version/release id pinned per mapping; code MIT; CI green.
 
 - **triage-011 (triage ≥ 3 candidates)**
   - [ ] Each dataset gets a committed gate artifact (access-tier + PASS/FLAG/EXCLUDE + rationale),
@@ -150,9 +175,24 @@ partner-outreach thread opened.
   - [ ] Contribution mechanism documented (PR vs. commons docs process vs. Zenodo companion).
   - [ ] Tasks for that partner updated to `verifiedNeed:true` with `requestor` set.
 
+- **drift-027 (upstream drift detection)** *(moved earlier from M3 per v0.2 analysis)*
+  - [ ] Hashes/diffs the upstream source dictionary (GDC YAML, GDC API field list, SEER recode page)
+        against the pinned source version recorded in `specVersions`.
+  - [ ] On change, opens a `maintenance` task flagging the affected dictionary; no auto-edit.
+  - [ ] Code MIT; tests + CI green; no credentials embedded.
+
+- **harmonize-028 (cross-dataset field-equivalence table, seed)**
+  - [ ] Publishes a named, citable equivalence artifact (canonical JSON + Markdown): ≥ 1 concept
+        (e.g. `vital_status`) mapped across ≥ 2 sources (GDC/cBioPortal/SEER/GEO) to a shared anchor
+        (NCIt / caDSR CDE / OMOP), each member carrying its own `sourceRef` + caveats.
+  - [ ] Mappings are candidates until **domain-reviewed**; `mappingOrigin` recorded per member.
+  - [ ] `CC-BY-4.0`; provenance 100%; no restricted-vocabulary term text emitted.
+
 **M1 Definition of Done:** gate applied to ≥ 3 datasets with committed artifacts; crosswalk tooling
-enforces ontology licensing (fixture-proven); ≥ 2 dictionaries adopted upstream (evidence recorded);
-≥ 1 confirmed partner; snapshot capture working (committed copy + SHA-256 + Wayback).
+enforces ontology licensing (fixture-proven), includes OMOP, and harvests official mappings with
+`mappingOrigin`; ≥ 2 dictionaries adopted upstream (evidence recorded); ≥ 1 confirmed partner;
+snapshot capture working (committed copy + SHA-256 + Wayback); **drift detection live**; a **first
+cross-dataset field-equivalence table** published.
 
 ---
 
@@ -170,6 +210,9 @@ enforces ontology licensing (fixture-proven); ≥ 2 dictionaries adopted upstrea
 - **score-015 (quality scoring)**
   - [ ] Computes field coverage, value-set coverage, provenance completeness (must be 100% to pass),
         unit/sentinel completeness, machine-validity; records before/after in the artifact.
+  - [ ] **Before/after are computed mechanically** (count of fields with a complete, sourced
+        definition + coded-value table) so scores are externally reproducible — no subjective
+        "legibility" judgement enters the number.
   - [ ] Code MIT; CI green.
 
 - **glossary-016 (researcher glossary)**
@@ -185,8 +228,10 @@ enforces ontology licensing (fixture-proven); ≥ 2 dictionaries adopted upstrea
         baseline median.
 
 **M2 Definition of Done:** ≥ 5 dictionaries adopted cumulatively across ≥ 2 sources; researcher
-glossary shipped for ≥ 2 datasets; quality scoring automated; measurable median per-dataset effort
-reduction vs. the M0/M1 baseline.
+glossary shipped for ≥ 2 datasets; quality scoring automated (mechanical before/after); measurable
+median per-dataset effort reduction vs. the M0/M1 baseline; **cross-dataset field-equivalence table
+expanded** (≥ 3 concepts across ≥ 3 sources) with its own coverage metric; Croissant emitted per
+dictionary for free discovery indexing.
 
 ---
 
@@ -196,7 +241,7 @@ reduction vs. the M0/M1 baseline.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | cancer-data-dictionaries-patient-glossary-019 | Patient-facing educational glossary (oncologist + advocate reviewed) | writing | medium | high | document | glossary-016 | Oncologist, Patient-advocate, Domain |
 | cancer-data-dictionaries-reuse-020 | Track and verify external reuse events | research | small | low | document | dict-012, dict-013, dict-018 | Steward |
-| cancer-data-dictionaries-refresh-021 | Staleness/refresh process + schema-drift detection | maintenance | small | low | document | validator-006 | Maintainer |
+| cancer-data-dictionaries-refresh-021 | Staleness/refresh process (formalize loop over M1 drift detection) | maintenance | small | low | document | drift-027 | Maintainer |
 | cancer-data-dictionaries-dict-022 | Dictionaries for open datasets #6–#8 | data | large | medium | document | dict-018, refresh-021 | Access+License+PII, Technical, Domain |
 
 **Acceptance criteria — key tasks**
@@ -214,8 +259,9 @@ reduction vs. the M0/M1 baseline.
         each linking to externally verifiable evidence (no self-reported reuse).
 
 - **refresh-021 (staleness/refresh)**
-  - [ ] Documented process to detect when a documented dataset has drifted from its recorded
-        version/release; validator flags schema drift; stale dictionaries become `maintenance` tasks.
+  - [ ] Builds the **human refresh loop** on top of the M1 `drift-027` mechanism (the detection
+        machinery lands in M1; M3 formalizes triage, ownership, and re-review cadence).
+  - [ ] Stale dictionaries become `maintenance` tasks; named steward owns the loop.
 
 **M3 Definition of Done:** ≥ 3 verifiable reuse events; ≥ 8 dictionaries adopted cumulatively;
 staleness/refresh process documented + steward named; **if** oncologist + advocate reviewers
@@ -286,9 +332,12 @@ FLAG = NC/custom (policy review); EXCLUDE = controlled/identifiable (no task).
 These mirror the committed `tasks/<id>.json` so every table row has checkable criteria.
 
 - **ontology-policy-003 (ontology/NC-source policy)**
-  - [ ] Names the accepted ontologies/codelists and pinned-version policy (ICD-O-3, NCIt, HGVS,
-        MONDO) and the restricted-vocabulary rule (e.g. SNOMED CT: link-out by code only, never
-        republish licensed term text).
+  - [ ] Names the accepted ontologies/codelists and pinned-version policy (NCIt, caDSR CDE, **OMOP
+        CDM** via ATHENA, ICD-O-3, HGVS, MONDO) and the restricted-vocabulary rule (e.g. SNOMED CT,
+        incl. SNOMED reached through OMOP: link-out by code only, never republish licensed term text).
+  - [ ] Records the **source-documentation copyright** rule (distinct from dataset license):
+        paraphrase-with-citation for definition prose; only short attributed verbatim snippets;
+        enforced by the verbatim-copy lint.
   - [ ] Decides COSMIC/OncoKB/GENIE/IARC per the NC/custom rule, consistent with gate-002
         (no default-allow; missing/unparseable license = FLAG/EXCLUDE).
   - [ ] Every coded-value meaning carries a `provenance.sourceRef`; referenced by gate-002 and crosswalk.
@@ -341,12 +390,14 @@ datasets the gate has not cleared). They expand into concrete per-dataset tasks 
 
 ## Generated task index
 
-All milestone/backlog rows now have a committed, schema-valid `tasks/<id>.json` (validated against
-`packages/schema` taskSchema; filenames match ids; no duplicates). Index:
+Milestone/backlog rows have a committed, schema-valid `tasks/<id>.json` (validated against
+`packages/schema` taskSchema; filenames match ids; no duplicates). The two tasks added in v0.2
+(`-drift-027`, `-harmonize-028`) still need their `tasks/<id>.json` generated. Index:
 
 - M0: `cancer-data-dictionaries-model-001` (seed), `-gate-002`, `-ontology-policy-003`, `-reviewer-004`,
   `-emit-005`, `-validator-006`, `-outreach-007`, `-pilot-008`
-- M1: `-snapshot-009`, `-crosswalk-010`, `-triage-011`, `-dict-012`, `-dict-013`, `-partner-014`
+- M1: `-snapshot-009`, `-crosswalk-010`, `-triage-011`, `-dict-012`, `-dict-013`, `-partner-014`,
+  `-drift-027` (v0.2), `-harmonize-028` (v0.2)
 - M2: `-score-015`, `-glossary-016`, `-catalog-017`, `-dict-018`
 - M3: `-patient-glossary-019`, `-reuse-020`, `-refresh-021`, `-dict-022`
 - Backlog: `-linkml-023`, `-i18n-024`, `-dash-025`, `-lookup-026`

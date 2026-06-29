@@ -1,6 +1,6 @@
 # PLAN — cancer-data-dictionaries
 
-> Status: Draft · Version: 0.1.0 · Last updated: 2026-06-28 · Owner: TBD (maintainer) · Lane: donated
+> Status: Draft · Version: 0.2.0 · Last updated: 2026-06-29 · Owner: TBD (maintainer) · Lane: donated
 
 ## Executive summary
 
@@ -19,9 +19,17 @@ datasets: for each field, a human-readable label and description, data type and 
 coded value set with each code's meaning and its authoritative source, nullability and sentinel
 conventions, caveats, and a provenance citation for **every** assertion. Dictionaries are emitted
 in both human-readable (Markdown) and machine-readable (JSON, Frictionless Table Schema, Croissant
-ML metadata) form, plus controlled-vocabulary crosswalks (e.g. ICD-O-3, NCI Thesaurus, HGVS) where
-licensing permits, and small validators that let any reuser re-check a dataset against its
-documented schema.
+ML metadata) form, plus controlled-vocabulary crosswalks (e.g. ICD-O-3, NCI Thesaurus, HGVS, OMOP
+CDM) where licensing permits, and small validators that let any reuser re-check a dataset against
+its documented schema. Where an authoritative machine-readable mapping already exists (notably the
+GDC Data Dictionary, which ships every property pre-linked to a caDSR CDE Public ID and NCI
+Thesaurus concept code as open YAML), our crosswalk work is **harvest-and-cite**, not re-derivation;
+we claim original credit only for mappings we derive and for **harmonization across datasets**.
+
+The single highest-value output is a **harmonized cross-dataset field-equivalence table** — the same
+clinical concept mapped across GDC, cBioPortal, SEER, and GEO to shared vocabularies (NCIt / caDSR
+CDE / OMOP) — shipped as a **named deliverable**, not a byproduct. No incumbent provides it, and it
+is the direct enabler of reproducible secondary analysis across sources.
 
 The **deliverable is documentation about the data, never the data itself.** We never mirror,
 clone, transform, re-host, or republish cancer data. Two hard, project-defining constraints govern
@@ -75,8 +83,14 @@ M0 includes explicit partner-outreach work; no partner is assumed.
   with a provenance citation for every assertion.
 - Make the **access-tier / license / PII gate** a non-skippable, auditable, blocking step, with the
   cancer guardrail (open-access only) as its first and hardest check.
-- Provide controlled-vocabulary **crosswalks** (ICD-O-3, NCI Thesaurus, HGVS, and similar) where
-  the vocabulary's own license permits redistribution of the mapping.
+- Provide controlled-vocabulary **crosswalks** (ICD-O-3, NCI Thesaurus, HGVS, **OMOP CDM**, and
+  similar) where the vocabulary's own license permits redistribution of the mapping. Where an
+  official machine-readable mapping already exists (e.g. GDC's caDSR CDE Public IDs + NCIt codes in
+  open YAML), **reproduce-and-cite** it rather than re-derive it; mark each mapping's origin
+  (`official` vs `derived`) so domain-review effort and credit focus on derived/harmonized mappings.
+- Ship a **harmonized cross-dataset field-equivalence table** as a first-class, citable deliverable
+  (canonical JSON + Markdown): the same concept mapped across GDC / cBioPortal / SEER / GEO to shared
+  vocabularies (NCIt / caDSR CDE / OMOP). This is the project's primary differentiator.
 - Provide small, dependency-light **validators** that re-check an open dataset against its
   documented schema and that verify the dictionary itself (schema-valid, every assertion sourced).
 - Contribute dictionaries **back** to the dataset's commons/repository/portal in its native form.
@@ -119,7 +133,10 @@ coverage (% of coded fields with a complete, sourced value list), provenance com
 100% to ship), unit/sentinel completeness, and machine-readable validity (valid JSON + Frictionless
 + Croissant). A recorded **before-score** (the dataset as published) and **after-score** are stored
 in the dictionary's gate/provenance artifact; target after-score **≥ 90/100** with provenance at
-100%.
+100%. To stay **externally reproducible**, the before/after scores are computed **mechanically** —
+the count of fields with a complete, sourced definition + coded-value table — rather than from a
+subjective judgement of the published dataset; any non-mechanical "legibility" impression is
+narrative context only, not part of the score.
 
 **What "adopted upstream" means, per channel** (the Steward records one canonical
 `outcomes/<dataset-id>.json` per dictionary with channel, permalink/DOI/commit, timestamp, and
@@ -140,8 +157,12 @@ before/after scores):
 - Machine-readable emission: canonical JSON dictionary, **Frictionless Table Schema**, **Croissant
   ML** metadata (JSON-LD).
 - Controlled-vocabulary crosswalks where the vocabulary license permits (ICD-O-3, NCI Thesaurus
-  (NCIt), HGVS, MONDO; LOINC with its open license recorded). SNOMED CT mappings only where a valid
-  affiliate/member license covers redistribution — otherwise excluded.
+  (NCIt), caDSR CDE, **OMOP CDM**, HGVS, MONDO; LOINC with its open license recorded), each marked
+  `official` (reproduced + cited) or `derived` (ours, domain-reviewed). SNOMED CT mappings only where
+  a valid affiliate/member license covers redistribution — otherwise excluded.
+- A **harmonized cross-dataset field-equivalence table** (named deliverable): the same concept mapped
+  across GDC / cBioPortal / SEER / GEO to a shared vocabulary anchor (NCIt / caDSR CDE / OMOP), with
+  per-member provenance and caveats.
 - Small validators: (a) re-check an open dataset's bounded sample against the documented schema;
   (b) lint the dictionary (schema-valid, every assertion has a `provenance` ref, no orphan codes).
 - Access-tier / license / PII triage and recording per candidate dataset.
@@ -167,6 +188,62 @@ controlled-access sources outright.
 - Re-identification, record linkage, or deanonymization.
 - Automated, unattended publishing.
 
+## Competitive landscape & differentiation
+
+**Incumbents are either authoritative-but-siloed/technical, or content-free format layers.** No one
+ships a plain-language, cross-dataset, machine-readable, provenance-checked, harmonized field
+dictionary. That seam is the opportunity.
+
+**Authoritative dictionaries (the incumbents):**
+- **GDC Data Dictionary (NCI).** Per-property definitions in open YAML/JSON-schema on GitHub
+  (`NCI-GDC/gdcdictionary`), each property pre-linked to a caDSR CDE Public ID + NCIt concept code, a
+  Dictionary Viewer UI. *Strengths:* canonical, already machine-readable, already CDE/NCIt-linked.
+  *Weaknesses:* GDC-only; terse/technical; no plain-language layer; no cross-dataset harmonization;
+  coded-value meanings often defer to separate manuals. (We **reproduce-and-cite** its mappings, not
+  reinvent them.)
+- **NCI caDSR / CDE Browser.** ISO/IEC 11179 registry of standardized Common Data Elements (the
+  source of GDC's CDE links). *Strengths:* authoritative, standards-compliant. *Weaknesses:*
+  heavyweight, registry-oriented, steep UX; not "what does column X in this file mean."
+- **NCI Thesaurus (NCIt) / EVS.** ~100k open biomedical concepts; ideal crosswalk target.
+  *Weaknesses:* an ontology, not a dataset dictionary.
+- **SEER coding/recode manuals.** Definitive for registry variables. *Weaknesses:* PDF-first,
+  scattered across many manuals, not machine-readable.
+- **cBioPortal data-format docs.** Practical for loaders, but explicitly *no fixed ontology* —
+  clinical attributes are free-form per study, so per-study column meaning is undocumented
+  centrally. Exactly the legibility gap this project targets.
+
+**Harmonization / format infrastructure (adjacent):**
+- **OHDSI OMOP vocabularies + ATHENA.** The dominant free cross-source harmonization vocabulary
+  (10M+ concepts, 136 vocabularies). *Weaknesses:* requires expensive ETL *into* the CDM; not a
+  per-published-dataset dictionary — oncology column semantics still need a bridge we can provide.
+- **NCI Center for Cancer Data Harmonization (CCDH / cancerdhc).** Directly adjacent prior art and a
+  potential partner/adoption channel — worth tracking.
+- **Frictionless Table Schema / Croissant ML.** *Formats*, not content: no cancer definitions, no
+  per-value semantics or provenance. We use them as emit targets (Croissant also gives free
+  discovery via Google Dataset Search / Hugging Face indexing).
+- **OpenML / data.world dictionaries.** Generic, crowd-edited; no domain authority or provenance
+  discipline.
+
+**Differentiators we win on:**
+- **Harmonization is the moat (strongest single differentiator).** The cross-dataset
+  field-equivalence table mapped to shared vocabularies is something *no* incumbent provides and the
+  direct enabler of reproducible secondary analysis across GDC/cBioPortal/SEER/GEO.
+- **Plain-language layer over authoritative, terse, PDF-scattered definitions** — the daily pain
+  point, especially for cBioPortal's free-form per-study attributes.
+- **One machine-readable artifact unifying meaning + value semantics + provenance** (today spread
+  across YAML schemas, Excel CDEs, OWL ontologies, and PDF manuals).
+- **Provenance-as-hard-gate + open licensing (CC-BY docs / MIT code)** — auditable, redistributable,
+  more rigorous than community dictionaries and more reusable than registry exports.
+- **Cancer-specific guardrails as a feature** — the access-tier/PII/license gate makes outputs *safe
+  to adopt* by institutional data commons.
+- **Native upstream contribution** — emitting in the source's own format (GDC YAML, Frictionless)
+  means the dictionary can be merged back, not just published alongside.
+
+**Relationship to the Elyos sibling `cancer-dataset-datasheets`:** datasheets answer "what *is* this
+dataset, who made it, what are its biases/consent terms" (the Gebru et al. cover page); dictionaries
+answer "what does *this column / this code* mean" (the field-by-field index). Non-overlapping lanes;
+the two should cross-link (datasheet → dictionary per dataset).
+
 ## Solution approach & architecture
 
 This is a **content/data-documentation project with light software** (template + canonical model +
@@ -185,10 +262,25 @@ emitters + validators + crosswalk tooling). It is **not** a data pipeline that m
    units, allowed/coded value set + each value's meaning, nullability + sentinel conventions,
    caveats. **Every assertion carries a `provenance` ref** to the source doc + section. Field
    meanings are read from *published documentation*, not inferred — gaps are flagged, never guessed.
-4. **Controlled-vocabulary crosswalk** — map coded fields to standard ontologies *where the
-   ontology license permits redistribution*; otherwise link out rather than republish.
+   **Definition prose is paraphrased-with-citation, not copied:** source documentation (WHO ICD-O-3,
+   SEER coding manuals, NCIt) is itself potentially copyrighted text *independent of the dataset's
+   open status*, so we restate meanings in our own words with a `sourceRef` and reserve verbatim
+   text to short, clearly-attributed snippets (enforced by the verbatim-copy lint, §Compliance).
+4. **Controlled-vocabulary crosswalk** — map coded fields to standard ontologies (NCIt, caDSR CDE,
+   **OMOP CDM**, ICD-O-3, HGVS, MONDO, LOINC) *where the ontology license permits redistribution*;
+   otherwise link out rather than republish. **Reproduce official mappings rather than re-derive
+   them:** for GDC, every property already carries a caDSR CDE Public ID + NCIt concept code in open
+   YAML, so this step is largely *harvest-and-cite*. Each mapping records `mappingOrigin`
+   (`official` = reproduced from an authoritative source, cite-only; `derived` = produced by us,
+   requires domain review). OMOP `concept_id`/domain mappings (via ATHENA) anchor cross-dataset
+   harmonization.
 5. **Machine-readable emission** — canonical JSON → projections: Frictionless Table Schema +
-   Croissant ML (JSON-LD).
+   Croissant ML (JSON-LD), and, for sources with a native dictionary format (e.g. GDC YAML), that
+   native form to enable upstream contribution. **Projections are lossy:** per-coded-value meaning
+   and per-assertion provenance are fully expressible only in the **canonical JSON** — Frictionless
+   carries field-level `enum`/`description` but no per-value source ref, and Croissant is oriented to
+   ML-ready loading with coarse field semantics. A **round-trip/coverage test** asserts that
+   value-level provenance either survives a projection or is documented as intentionally absent.
 6. **Validation** — lint the dictionary (provenance completeness, code/value integrity); optionally
    re-check the dataset's **bounded open sample** against the documented schema, under the access
    protocol below.
@@ -204,8 +296,14 @@ emitters + validators + crosswalk tooling). It is **not** a data pipeline that m
 `pii {present:boolean, deidentified:boolean, basis, notes}`,
 `tables[] { name, description, fields[] { name, label, dataType, units, codeSystem,
 allowedValues[]{code, meaning, sourceRef}, nullable, sentinels[], description, caveats,
-provenance{sourceRef} } }`, `crosswalks[]{field, targetVocabulary, license, mapping[]}`,
-`qualityScore {before, after}`, `specVersions {frictionless, croissant}`.
+provenance{sourceRef} } }`, `crosswalks[]{field, targetVocabulary, license, mappingOrigin
+(official|derived), sourceRef, mapping[]}`, `qualityScore {before, after}`,
+`specVersions {frictionless, croissant, ncit, icdo, omop, gdcDictionary}`.
+
+A sibling **harmonized field-equivalence** artifact (`equivalences[]{ concept, vocabularyAnchor
+(NCIt/CDE/OMOP), members[]{datasetId, field, sourceRef}, caveats }`) is a named deliverable that
+references the per-dataset dictionaries; it is produced and reviewed as its own work item, not a
+silent byproduct.
 
 **Tech stack.** TypeScript, ESM, pnpm workspaces (Elyos convention). Emitters, validators, and
 crosswalk tooling are small Node packages with minimal dependencies. Dictionaries authored in
@@ -214,8 +312,12 @@ Markdown + JSON/JSON-LD. No runtime services; everything runs locally or in CI.
 **Pinned target spec versions** (recorded in `specVersions`, bumped only by a deliberate task):
 - **Frictionless Table Schema** — v1 / v2 (current published spec at adoption; pinned per dataset).
 - **Croissant ML** — v1.0 (MLCommons), validated against the v1.0 JSON-LD context/SHACL.
-- **Ontology/codelist versions** — ICD-O-3.2, NCI Thesaurus (release date pinned), HGVS recommended
-  nomenclature version, MONDO release — each recorded per crosswalk so a mapping is reproducible.
+- **Ontology/codelist versions** — ICD-O-3.2, NCI Thesaurus (**monthly** release id pinned, e.g.
+  26.05d, since NCIt updates monthly), caDSR CDE versions, **OMOP CDM vocabulary release (via
+  ATHENA)**, HGVS recommended nomenclature version, MONDO release — each recorded per crosswalk so a
+  mapping is reproducible.
+- **Source dictionary version** — the upstream dictionary release we documented (e.g. GDC Data
+  Dictionary version, SEER recode release) is pinned so drift detection can diff against it.
 
 **Dataset-inspection access protocol** (makes "describe, never store" enforceable — and is the
 *only* point we touch data; it applies **only to open-access data** that has already PASSed the gate):
@@ -240,6 +342,31 @@ Markdown + JSON/JSON-LD. No runtime services; everything runs locally or in CI.
 - Crosswalks respect ontology licensing — we link rather than republish where a license forbids it.
 - Provenance is a *hard* emit-time constraint: the validator fails the build if any assertion lacks
   a `sourceRef`.
+
+**AI assistance (Claude) — where it drafts, and the hard boundaries.** This is a donated-lane
+project; a human runs their own agent interactively. Claude is high-leverage for *drafting and
+proposing*, never for deciding:
+- **Draft plain-language field definitions from official docs, with citations + gap-flagging.** Feed
+  the GDC property entry / SEER manual section / GEO header; Claude produces a paraphrased label +
+  description + a candidate `sourceRef`, and explicitly flags anything it cannot source. (Directly
+  attacks the legibility gap; paraphrase, not verbatim.)
+- **Propose field→vocabulary mappings (NCIt / caDSR CDE / OMOP / ICD-O-3) as *candidates*.** For
+  GDC, reconcile against the *existing* official CDE/NCIt links (verification, not invention); for
+  cBioPortal's free-form per-study attributes, propose candidate concept codes for human
+  confirmation.
+- **Harmonize equivalent fields across datasets** — cluster `vital_status` / `OS_STATUS` / `Vital
+  status recode`, draft the equivalence table + caveats (the differentiator), subject to domain
+  review.
+- (Supporting) **Extract coded-value sets and sentinels** from manuals into the canonical model, and
+  **lint prose for verbatim-copy risk.**
+
+Hard boundaries (match the no-invented-definitions rule): **no fabricated field/value meanings**
+(unsourced = omitted + flagged; the *validator*, not the model, enforces 100% provenance);
+**license & access-tier and PII/identifiability calls are human-verified** (Claude may summarize a
+clause, but `permitsDerivatives:true` and OPEN/CONTROLLED determinations are the reviewer's, with
+cited evidence); **crosswalk mappings are candidates, not commits** (domain reviewer signs off;
+restricted-vocabulary term text is never emitted by the model); **no patient-facing medical phrasing**
+outside the gated M3 channel.
 
 ## Data, licensing & compliance
 
@@ -287,10 +414,24 @@ FLAG/EXCLUDE, never default-allow.
 
 Crosswalks can inadvertently *republish licensed vocabulary content*. The
 ontology-licensing policy (`ontology-policy-003`) fixes per-vocabulary rules before any crosswalk
-runs: **redistribute mappings** for open vocabularies (NCIt, HGVS, MONDO, LOINC under its license
-with attribution); for **restricted** vocabularies (notably **SNOMED CT**, and any non-commercial
-ICD-O derivative concerns), **link out by code rather than republishing the term text**, unless a
-valid license covers redistribution. The chosen vocabulary version is pinned per crosswalk.
+runs: **redistribute mappings** for open vocabularies (NCIt, caDSR CDE, **OMOP CDM concepts via
+ATHENA**, HGVS, MONDO, LOINC under its license with attribution); for **restricted** vocabularies
+(notably **SNOMED CT**, and any non-commercial ICD-O derivative concerns), **link out by code rather
+than republishing the term text**, unless a valid license covers redistribution. The chosen
+vocabulary version is pinned per crosswalk. Note that **OMOP/ATHENA aggregates restricted
+vocabularies** (SNOMED among them), so OMOP crosswalks redistribute the `concept_id`/domain mapping
+and the *open* concept names only, never restricted term text — same link-out rule applies.
+
+### Source-documentation copyright (distinct from dataset license)
+
+A dataset can be fully open while its **authoritative documentation prose is copyrighted** — a field
+definition lifted verbatim from a WHO ICD-O-3 manual or a SEER coding manual is potentially
+protected text *independent of the dataset's open status*. The "read from published documentation,
+not inferred" rule (pipeline 3) must therefore not become verbatim copying. Policy: **paraphrase
+definition prose in our own words with a `sourceRef`**, and reserve verbatim text to short, clearly
+attributed snippets. A **verbatim-copy lint** runs in CI, capping quoted-run length against source
+manuals and requiring attribution; long unattributed runs fail the build. This is checked separately
+from the dataset-license and vocabulary-term-text checks above.
 
 ### Provenance model
 
@@ -371,8 +512,11 @@ shipped; recorded upstream adoption is.
   maintainer who agreed to look at a contribution; failing that, (b) a **self-serve fallback** that
   does not depend on a third party — a **GitHub PR to the dataset's own repo** or a **Zenodo
   record/DOI** we publish ourselves. The pilot must use one so M0 yields a real *adopted* outcome.
-- Pilot candidate (lowest-risk): a clearly open dataset — e.g. a **GEO series** dictionary, **GDC
-  open-tier clinical** fields, or a **SEER\*Explorer aggregate** table.
+- Pilot candidate (lowest-risk **and** richest field/value structure): **GDC open-tier clinical**
+  fields or a **GEO series** dictionary — both exercise the per-field + coded-value + provenance
+  model well, and GDC additionally lets us demonstrate harvest-and-cite of official caDSR-CDE/NCIt
+  mappings. A **SEER\*Explorer aggregate** table is deferred to later milestones: aggregate tables
+  lack the column/coded-value richness to exercise the dictionary model and would weakly test it.
 - Exit criteria: (1) dictionary template + canonical model published; (2) access-tier+license+PII
   gate checklist (incl. ontology-licensing policy) exists and is applied to one dataset; (3)
   JSON/Frictionless/Croissant emitters + dictionary validator green in CI with golden fixtures
@@ -381,28 +525,39 @@ shipped; recorded upstream adoption is.
   channel or self-serve fallback (acceptance artifact recorded) — or, if no channel materializes,
   **submitted** with the blocker surfaced; (6) ≥ 1 partner-outreach thread opened.
 
-**M1 — Gate hardened, crosswalks, first adoptions**
-- Goal: make the gate rigorous, add controlled-vocabulary crosswalks, and get real dictionaries
-  adopted.
+**M1 — Gate hardened, crosswalks, harmonization seed, first adoptions**
+- Goal: make the gate rigorous, add controlled-vocabulary crosswalks (incl. OMOP + harvest of
+  official mappings), stand up drift detection, seed the harmonization table, and get real
+  dictionaries adopted.
 - Exit criteria: (1) gate codified as a reviewable artifact and applied to ≥ 3 datasets with
   committed dispositions; (2) crosswalk tooling enforces the ontology-licensing policy (restricted
-  vocab = link-out, proven by fixtures); (3) ≥ 2 dictionaries **adopted** upstream; (4) ≥ 1
+  vocab = link-out, proven by fixtures), reproduces official mappings with `mappingOrigin`, and
+  includes **OMOP CDM** as a target; (3) ≥ 2 dictionaries **adopted** upstream; (4) ≥ 1
   confirmed partner; (5) license/source-doc snapshot capture working (committed copy + SHA-256 +
-  Wayback).
+  Wayback); (6) **drift detection live (moved up from M3)** — hash/diff the upstream dictionary (GDC
+  YAML / GDC API field list / SEER recode page) against the pinned source version and open a
+  `maintenance` task on change; (7) a **first cross-dataset field-equivalence table** (≥ 1 concept
+  harmonized across ≥ 2 sources, e.g. `vital_status`) published as a named deliverable.
 
 **M2 — Scale + researcher plain-language layer**
 - Goal: increase throughput and add a researcher-facing plain-language glossary; quantify effort
   reduction.
 - Exit criteria: (1) ≥ 5 dictionaries adopted cumulatively across ≥ 2 distinct data sources; (2)
   researcher plain-language glossary layer shipped for ≥ 2 datasets (low–medium, domain-reviewed);
-  (3) dictionary-quality scoring automated; (4) median per-dataset effort (AI-session minutes +
-  human-review cycles, from the outcome ledger) measurably reduced vs. the M0/M1 baseline.
+  (3) dictionary-quality scoring automated (mechanical before/after); (4) median per-dataset effort
+  (AI-session minutes + human-review cycles, from the outcome ledger) measurably reduced vs. the
+  M0/M1 baseline; (5) the **cross-dataset field-equivalence table expanded** (≥ 3 concepts across
+  ≥ 3 sources) and tracked with its own coverage metric; (6) **round-trip/coverage test** in CI
+  proving value-level provenance survives (or is documented as intentionally absent in) each lossy
+  projection; (7) Croissant emitted per dictionary to gain free discovery (Google Dataset Search /
+  Hugging Face indexing), widening the reuse-signal funnel.
 
 **M3 — Patient-facing layer (gated, high risk) + reuse outcomes + sustainability**
 - Goal: demonstrate downstream reuse, establish a maintenance model, and (only if a qualified
   review panel is secured) release an oncologist- and advocate-reviewed patient glossary.
 - Exit criteria: (1) ≥ 3 verifiable external reuse events; (2) ≥ 8 dictionaries adopted
-  cumulatively; (3) documented staleness/refresh process + named steward; (4) **if and only if**
+  cumulatively; (3) the M1 drift detection matured into a documented staleness/refresh process +
+  named steward (the *mechanism* lands in M1; M3 formalizes the human refresh loop); (4) **if and only if**
   oncologist + advocate reviewers are secured, ≥ 1 patient-facing educational glossary released with
   both sign-offs and a "not medical advice" notice — otherwise this item is explicitly deferred, not
   shipped unreviewed.
@@ -444,14 +599,16 @@ it.
 
 - **External standards/specs (pinned — see Tech stack):** Frictionless Table Schema, Croissant ML
   v1.0, schema.org/Dataset, SPDX license identifiers; controlled vocabularies ICD-O-3, NCI
-  Thesaurus, HGVS, MONDO, LOINC (SNOMED CT only under valid license). Versions recorded in
-  `specVersions`/`crosswalks` and bumped only via a deliberate task.
+  Thesaurus, caDSR CDE, **OMOP CDM (via OHDSI ATHENA)**, HGVS, MONDO, LOINC (SNOMED CT only under
+  valid license). Source-native dictionary formats (GDC YAML) for upstream contribution. Versions
+  recorded in `specVersions`/`crosswalks` and bumped only via a deliberate task.
 - **Data sources (candidate, TO BE SELECTED via gate):** GDC/TCGA open tier, GEO, SEER aggregate
   (SEER\*Explorer), ClinVar, Expression Atlas, PRIDE, CPTAC open tier, DepMap, TCIA (per-collection).
   **Flagged/excluded:** COSMIC, OncoKB, GENIE, IARC/GLOBOCAN (flag); dbGaP, EGA, controlled
   TCGA/ICGC/TARGET, individual-level biobanks (excluded).
-- **Adoption channels:** GDC/CRDC docs, cBioPortal, Sage Bionetworks/Synapse, EBI, Bioconductor/
-  Galaxy training; GitHub, Hugging Face, Zenodo. Output-only contributions; no automated upload.
+- **Adoption channels:** GDC/CRDC docs, cBioPortal, Sage Bionetworks/Synapse, EBI, **NCI CCDH
+  (cancerdhc)** as prior-art collaborator/channel, Bioconductor/Galaxy training; GitHub, Hugging
+  Face, Zenodo. Output-only contributions; no automated upload.
 - **Elyos pieces:** Task JSON schema (`packages/schema`), donated-lane CLI workspace/PR flow
   (`packages/cli`), good-deed definition + refusal guardrails. No funded-lane/runner dependency.
 
@@ -463,9 +620,11 @@ it.
 | Mis-classifying a license (treating non-redistributable as reusable) | Medium | High | Mandatory reviewer; `permitsDerivatives:true` only with cited clause; COSMIC/OncoKB/GENIE/IARC pre-flagged; exclude on doubt | Access+License+PII reviewer |
 | Incorrect field meaning / coded-value interpretation (clinical fields) | Medium | High | Domain (cancer-informatics) review; source-verified only; gaps flagged not guessed; provenance 100% | Domain reviewer |
 | Crosswalk republishes licensed vocabulary text (e.g. SNOMED CT) | Medium | Medium | Ontology-licensing policy fixed before crosswalks; restricted vocab = link-out; CI fixture proves term text not emitted | Maintainer |
+| Verbatim copying of copyrighted source-documentation prose (WHO ICD-O-3 / SEER manuals) | Medium | Medium | Paraphrase-with-citation rule; verbatim-copy lint caps quoted runs + requires attribution (CI); separate from dataset-license check | Technical reviewer |
+| Crosswalk work perceived as reinventing official mappings (GDC caDSR/NCIt already exist) | Low | Medium | Harvest-and-cite official mappings; `mappingOrigin: official\|derived`; credit/review focus on derived + harmonized only | Maintainer |
 | Patient-facing content drifts into medical advice | Low | High | Patient layer gated behind oncologist + advocate sign-off; "not medical advice" notice; refuse/flag advice-shaped requests | Oncologist + advocate |
 | No adoption partner → dictionaries produced but never adopted (fails "delivered") | Medium | High | M0 outreach + self-serve fallback (PR/Zenodo); steward role; `verifiedNeed:false` until secured | Steward |
-| Source data/schema changes, dictionaries go stale | Medium | Medium | Record version + retrieval date; validator detects drift; refresh milestone (M3) | Maintainer |
+| Source data/schema changes, dictionaries go stale | Medium | Medium | Record + pin source version; **drift detection lands in M1** (hash/diff upstream GDC YAML / API field list / SEER recode page, open `maintenance` task on change); refresh loop formalized in M3 | Maintainer |
 | Spec/format drift (Croissant/Frictionless versions) | Medium | Low | Canonical-model-first; pinned spec versions; isolated version-bump tasks | Maintainer |
 | Scope creep into cleaning/transforming/re-hosting data | Medium | Medium | Explicit non-goal; reviewers reject any data-movement work | Maintainer |
 | Model invents an unsourced definition | Medium | High | Provenance is an emit-time hard constraint; validator fails build on any missing `sourceRef` | Technical reviewer |
@@ -497,6 +656,24 @@ it.
   success metrics; reviewed each milestone. Patient-facing items are re-reviewed by the expert panel
   on a fixed cadence or when guidance changes.
 
+## Adjacent opportunities
+
+Spin-offs that reuse this project's artifacts without expanding its core scope (tracked, not
+committed):
+- **Harmonized cross-dataset field-mapping table** (parallel, highest value) — promoted here to a
+  named deliverable; usable standalone by other tools.
+- **"What does this column mean?" MCP server** (perpendicular) — serve the canonical dictionaries
+  read-only over MCP so an analyst's agent answers field/value questions in-context with provenance;
+  aligns with the emerging Croissant+MCP direction; strictly read-only, no data access (donated lane).
+- **Tie-in with `cancer-dataset-datasheets`** — datasheet (cover page) links to dictionary (index);
+  shared dataset-id registry and one reusable gate-artifact format across both.
+- **`open-cohort-catalog`** — a registry of open cancer datasets keyed to their dictionaries +
+  access-tier dispositions; this plan's candidate catalog is the seed.
+- **`oncology-glossary-multilingual`** — the gated M3 plain-language glossary, translated; reuses the
+  translation deliverable type and the "not medical advice" gating.
+- **Schema-conformance validator as a reusable package** — re-check any open dataset against its
+  documented schema; useful far beyond cancer.
+
 ## Open questions
 
 - Which commons/repo/advocacy partner will be the first confirmed adopter (GDC/CRDC, cBioPortal,
@@ -506,6 +683,19 @@ it.
   what attribution? (Default: flag/exclude pending policy decision.)
 - Crosswalk targets: which ontology versions do we pin, and is a SNOMED CT affiliate license
   available to the project (else link-out only)?
+- **OMOP CDM** is now a crosswalk target (harmonization moat) — confirm the cross-dataset semantic
+  anchor (NCIt vs caDSR CDE vs OMOP `concept_id`) used as the canonical equivalence key.
+- For GDC, the plan **reproduces-and-cites** the official caDSR-CDE/NCIt mappings (not independent
+  mapping) — confirm scope framing so the work reads as harmonization + plain-language, not
+  reinventing the official dictionary.
+- Definition-prose copyright policy for WHO ICD-O-3 / SEER manual text: confirm the paraphrase-only
+  default and the length cap for short attributed quotes enforced by the verbatim-copy lint.
+- Is **Croissant** worth its cost for clinical tables, or should the second emit target be the
+  source's **native format** (GDC YAML) to enable native upstream PRs? (Plan now does both;
+  prioritization TBD.)
+- The **cross-dataset field-equivalence table** is now a named M1/M2 deliverable with its own
+  coverage metric — confirm the metric threshold and which sources/concepts are in the first cut.
+- Is **CCDH (cancerdhc)** best engaged as prior-art collaborator or as an adoption partner channel?
 - Can the oncologist + patient-advocate review panel be secured for M3, or is the patient-facing
   glossary deferred indefinitely?
 - For GDC/GEO, do we contribute dictionaries via PR, the commons' own docs process, or a Zenodo
@@ -526,8 +716,12 @@ it.
 - The Cancer Imaging Archive (TCIA) per-collection licensing
 - COSMIC, OncoKB, AACR Project GENIE, IARC/GLOBOCAN (flagged license terms)
 - WHO ICD-O-3; NCI Thesaurus (NCIt); HGVS nomenclature; MONDO; LOINC; SNOMED CT (licensed)
-- Frictionless Table Schema; Croissant ML metadata (MLCommons); schema.org/Dataset; SPDX
-- Datasheets for Datasets (Gebru et al.) — companion documentation pattern
+- NCI GDC Data Dictionary repo (open YAML) — `NCI-GDC/gdcdictionary`; caDSR / CDE Browser (ISO/IEC 11179)
+- OHDSI OMOP CDM standardized vocabularies + ATHENA — `OHDSI/Athena`
+- NCI Center for Cancer Data Harmonization (CCDH / cancerdhc) — prior art / adoption channel
+- cBioPortal data-format docs (free-form per-study clinical attributes)
+- Frictionless Table Schema; Croissant ML metadata (MLCommons; Google Dataset Search indexing); schema.org/Dataset; SPDX
+- Datasheets for Datasets (Gebru et al.) — companion documentation pattern; sibling `cancer-dataset-datasheets`
 
 ---
 
@@ -619,3 +813,30 @@ schema).**
 
 **Sign-off:** Ready for maintainer review and partner outreach. No fabricated partners, needs, or
 licenses; all unknowns marked TO BE SECURED.
+
+---
+
+## Changelog — v0.2 (analysis merged)
+
+Merges `COMPETITIVE-ANALYSIS.md` into the plan. Fixes applied (correctness/license/safety/schema)
+and strategy additions, one line each.
+
+**Fixes applied**
+- Harvest-and-cite official mappings: GDC ships caDSR CDE Public IDs + NCIt codes as open YAML, so "map to NCIt/CDE" is reproduce-and-cite, not derive (Exec summary, Goals, Solution pipeline 4).
+- Added `mappingOrigin` (`official`|`derived`) to the canonical model + crosswalks so credit/review focus on derived/harmonized mappings (Solution model; Risks).
+- Added **OMOP CDM** (via ATHENA) as a first-class crosswalk target — the missing cross-dataset harmonization anchor (Exec summary, Goals, Scope, Solution, Compliance, Dependencies).
+- Source-documentation copyright treated as a license risk distinct from the dataset license: paraphrase-with-citation rule + verbatim-copy CI lint for WHO ICD-O-3 / SEER manual prose (Solution pipeline 3; new Compliance subsection; Risks).
+- Lossy emit formats made explicit: value-level provenance survives only in canonical JSON; added a round-trip/coverage test; native GDC YAML added as an emit target (Solution pipeline 5; M2).
+- Drift detection moved from M3 to **M1** with a concrete mechanism (hash/diff upstream GDC YAML / API field list / SEER recode page) (Roadmap M1/M3; Risks).
+- Before/after legibility score made mechanical (count of fields with complete sourced definitions) so it is externally reproducible (Success metrics).
+- Pinned monthly/annual release ids (NCIt e.g. 26.05d, ICD-O-3.2, OMOP/ATHENA release, GDC dictionary version, SEER recode) in `specVersions` (Solution).
+- M0 pilot re-targeted to GDC open-tier clinical or a GEO series (richer field/value structure); SEER aggregate deferred (Roadmap M0).
+
+**Strategy integrated**
+- New "## Competitive landscape & differentiation" section: GDC Data Dictionary, NCI caDSR/CDE Browser, NCIt, SEER manuals, cBioPortal, OHDSI OMOP/ATHENA, CCDH, Frictionless/Croissant.
+- Named differentiator deliverable: the harmonized cross-dataset field-equivalence table (GDC↔cBioPortal↔SEER↔GEO to shared vocabularies), promoted from byproduct to M1/M2 deliverable with its own coverage metric.
+- Claude-API leverage folded into the Solution/architecture section (plain-language definitions with citations + gap-flagging; field→NCIt/CDE/OMOP mapping candidates; cross-dataset harmonization) keeping trace-to-source + human-verify boundaries.
+- Top optimizations folded into the Roadmap/Work-breakdown (OMOP target, harvest official mappings, equivalence table, Croissant discovery, drift detection, verbatim lint, mechanical scoring, pinned versions, round-trip test, pilot re-target).
+- New "## Adjacent opportunities" note from the spin-offs (harmonization table, MCP lookup server, datasheets tie-in, open-cohort-catalog, multilingual glossary, reusable schema-conformance validator).
+- Open Questions merged (OMOP anchor, GDC reproduce-vs-derive framing, definition-prose copyright policy, Croissant-vs-native-format, equivalence-table metric, CCDH engagement).
+- Relationship to sibling `cancer-dataset-datasheets` clarified (field-level index vs dataset-level cover page; cross-link).
